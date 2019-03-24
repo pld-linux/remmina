@@ -5,6 +5,7 @@
 %bcond_without	rdp		# do not build rdp plugin
 %bcond_without	secret		# do not build secret plugin
 %bcond_without	spice		# do not build spice plugin
+%bcond_without	telepathy	# do not build telepathy plugin
 %bcond_without	vnc		# do not build vnc plugin
 %bcond_without	xdmcp		# do not build xdmcp plugin
 #
@@ -40,6 +41,7 @@ BuildRequires:	libssh-devel >= 0.6
 #BuildRequires:	pkgconfig(vte-2.91)
 BuildRequires:	rpmbuild(macros) >= 1.742
 %{?with_spice:BuildRequires:	spice-gtk-devel}
+%{?with_telepathy:BuildRequires:	telepathy-glib-devel}
 BuildRequires:	xorg-lib-libxkbfile-devel
 
 %description
@@ -132,6 +134,19 @@ net-books.
 This package contains the SPICE plugin for the Remmina remote desktop
 client.
 
+%package        plugins-telepathy
+Summary:	Telepathy plugin for Remmina Remote Desktop Client
+Requires:	%{name} = %{version}-%{release}
+
+%description    plugins-telepathy
+Remmina is a remote desktop client written in GTK+, aiming to be
+useful for system administrators and travelers, who need to work with
+lots of remote computers in front of either large monitors or tiny
+net-books.
+
+This package contains the Telepathy plugin for the Remmina remote
+desktop client.
+
 %package        plugins-vnc
 Summary:	VNC plugin for Remmina Remote Desktop Client
 Requires:	%{name} = %{version}-%{release}
@@ -175,6 +190,7 @@ mkdir -p build
 	-DWITH_GETTEXT=ON \
 	-DWITH_LIBSSH=ON \
 	%{cmake_on_off spice SPICE} \
+	%{cmake_on_off telepathy TELEPATHY} \
 	%{cmake_on_off vte VTE} \
 	.
 
@@ -248,6 +264,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/remmina/plugins/remmina-plugin-spice.so
 %{_iconsdir}/hicolor/*/emblems/remmina-spice-symbolic.svg
 %{_iconsdir}/hicolor/*/emblems/remmina-spice-ssh-symbolic.svg
+%endif
+
+%if %{with telepathy}
+%files plugins-telepathy
+%defattr(644,root,root,755)
+%{_libdir}/remmina/plugins/remmina-plugin-telepathy.so
+%{_datadir}/dbus-1/services/org.freedesktop.Telepathy.Client.Remmina.service
+%{_datadir}/telepathy/clients/Remmina.client
 %endif
 
 %if %{with vnc}
