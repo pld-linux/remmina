@@ -191,6 +191,7 @@ mkdir -p build
 	-DWITH_GCRYPT=ON \
 	-DWITH_GETTEXT=ON \
 	-DWITH_LIBSSH=ON \
+	%{cmake_on_off vnc LIBVNCSERVER} \
 	%{cmake_on_off spice SPICE} \
 	%{cmake_on_off telepathy TELEPATHY} \
 	%{cmake_on_off vte VTE} \
