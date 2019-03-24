@@ -1,4 +1,6 @@
 #
+# note: disabling plugins will still build them if deps are met
+#
 # Conditional build:
 %bcond_without	exec		# do not build exec plugin
 %bcond_with	nx		# build nx plugin
