@@ -1,3 +1,13 @@
+#
+# Conditional build:
+%bcond_without	exec		# do not build exec plugin
+%bcond_with	nx		# build nx plugin
+%bcond_without	rdp		# do not build rdp plugin
+%bcond_without	secret		# do not build secret plugin
+%bcond_without	spice		# do not build spice plugin
+%bcond_without	vnc		# do not build vnc plugin
+%bcond_without	xdmcp		# do not build xdmcp plugin
+#
 Summary:	Remote Desktop Client
 Name:		remmina
 Version:	1.3.4
@@ -16,19 +26,20 @@ BuildRequires:	appstream-glib
 BuildRequires:	avahi-ui-gtk3-devel >= 0.6.30
 BuildRequires:	cmake >= 2.8
 BuildRequires:	desktop-file-utils
-BuildRequires:	freerdp2-devel >= 2.0.0-0.20190320
+%{?with_rdp:BuildRequires:	freerdp2-devel >= 2.0.0-0.20190320}
 BuildRequires:	gettext
 BuildRequires:	gtk+3-devel
 BuildRequires:	intltool
 BuildRequires:	json-glib-devel
 BuildRequires:	libappindicator-gtk3-devel
 BuildRequires:	libgcrypt-devel
-BuildRequires:	libsecret-devel
+%{?with_secret:BuildRequires:	libsecret-devel}
 BuildRequires:	libsoup-devel
 BuildRequires:	libssh-devel >= 0.6
-BuildRequires:	libvncserver-devel
+%{?with_vnc:BuildRequires:	libvncserver-devel}
 #BuildRequires:	pkgconfig(vte-2.91)
-BuildRequires:	spice-gtk-devel
+BuildRequires:	rpmbuild(macros) >= 1.742
+%{?with_spice:BuildRequires:	spice-gtk-devel}
 BuildRequires:	xorg-lib-libxkbfile-devel
 
 %description
@@ -205,41 +216,55 @@ rm -rf $RPM_BUILD_ROOT
 %{_pkgconfigdir}/%{name}.pc
 %{_libdir}/cmake/%{name}/*.cmake
 
+%if %{with exec}
 %files plugins-exec
 %defattr(644,root,root,755)
 %{_libdir}/remmina/plugins/remmina-plugin-exec.so
+%endif
 
+%if %{with nx}
 %files plugins-nx
 %defattr(644,root,root,755)
 %{_libdir}/remmina/plugins/remmina-plugin-nx.so
 %{_iconsdir}/hicolor/*/emblems/remmina-nx-symbolic.svg
+%endif
 
+%if %{with rdp}
 %files plugins-rdp
 %defattr(644,root,root,755)
 %{_libdir}/remmina/plugins/remmina-plugin-rdp.so
 %{_iconsdir}/hicolor/*/emblems/remmina-rdp-ssh-symbolic.svg
 %{_iconsdir}/hicolor/*/emblems/remmina-rdp-symbolic.svg
+%endif
 
+%if %{with secret}
 %files plugins-secret
 %defattr(644,root,root,755)
 %{_libdir}/remmina/plugins/remmina-plugin-secret.so
+%endif
 
+%if %{with spice}
 %files plugins-spice
 %defattr(644,root,root,755)
 %{_libdir}/remmina/plugins/remmina-plugin-spice.so
 %{_iconsdir}/hicolor/*/emblems/remmina-spice-symbolic.svg
 %{_iconsdir}/hicolor/*/emblems/remmina-spice-ssh-symbolic.svg
+%endif
 
+%if %{with vnc}
 %files plugins-vnc
 %defattr(644,root,root,755)
 %{_libdir}/remmina/plugins/remmina-plugin-vnc.so
 %{_iconsdir}/hicolor/*/emblems/remmina-vnc-ssh-symbolic.svg
 %{_iconsdir}/hicolor/*/emblems/remmina-vnc-symbolic.svg
+%endif
 
+%if %{with xdmcp}
 %files plugins-xdmcp
 %defattr(644,root,root,755)
 %{_libdir}/remmina/plugins/remmina-plugin-xdmcp.so
 %{_iconsdir}/hicolor/*/emblems/remmina-xdmcp-ssh-symbolic.svg
 %{_iconsdir}/hicolor/*/emblems/remmina-xdmcp-symbolic.svg
+%endif
 
 %changelog
