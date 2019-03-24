@@ -66,21 +66,6 @@ net-books.
 This package contains the plugin to execute external processes
 (commands or applications) from the Remmina window.
 
-%package        plugins-secret
-Summary:	Keyring integration for Remmina Remote Desktop Client
-Requires:	%{name} = %{version}-%{release}
-Provides:	%{name}-plugins-gnome%{?_isa} = %{version}-%{release}
-Obsoletes:	remmina-plugins-gnome < %{version}-%{release}
-
-%description    plugins-secret
-Remmina is a remote desktop client written in GTK+, aiming to be
-useful for system administrators and travelers, who need to work with
-lots of remote computers in front of either large monitors or tiny
-net-books.
-
-This package contains the plugin with keyring support for the Remmina
-remote desktop client.
-
 %package        plugins-nx
 Summary:	NX plugin for Remmina Remote Desktop Client
 Requires:	%{name} = %{version}-%{release}
@@ -108,6 +93,34 @@ net-books.
 This package contains the Remote Desktop Protocol (RDP) plugin for the
 Remmina remote desktop client.
 
+%package        plugins-secret
+Summary:	Keyring integration for Remmina Remote Desktop Client
+Requires:	%{name} = %{version}-%{release}
+Provides:	%{name}-plugins-gnome%{?_isa} = %{version}-%{release}
+Obsoletes:	remmina-plugins-gnome < %{version}-%{release}
+
+%description    plugins-secret
+Remmina is a remote desktop client written in GTK+, aiming to be
+useful for system administrators and travelers, who need to work with
+lots of remote computers in front of either large monitors or tiny
+net-books.
+
+This package contains the plugin with keyring support for the Remmina
+remote desktop client.
+
+%package        plugins-spice
+Summary:	SPICE plugin for Remmina Remote Desktop Client
+Requires:	%{name} = %{version}-%{release}
+
+%description    plugins-spice
+Remmina is a remote desktop client written in GTK+, aiming to be
+useful for system administrators and travelers, who need to work with
+lots of remote computers in front of either large monitors or tiny
+net-books.
+
+This package contains the SPICE plugin for the Remmina remote desktop
+client.
+
 %package        plugins-vnc
 Summary:	VNC plugin for Remmina Remote Desktop Client
 Requires:	%{name} = %{version}-%{release}
@@ -133,19 +146,6 @@ lots of remote computers in front of either large monitors or tiny
 net-books.
 
 This package contains the XDMCP plugin for the Remmina remote desktop
-client.
-
-%package        plugins-spice
-Summary:	SPICE plugin for Remmina Remote Desktop Client
-Requires:	%{name} = %{version}-%{release}
-
-%description    plugins-spice
-Remmina is a remote desktop client written in GTK+, aiming to be
-useful for system administrators and travelers, who need to work with
-lots of remote computers in front of either large monitors or tiny
-net-books.
-
-This package contains the SPICE plugin for the Remmina remote desktop
 client.
 
 %prep
@@ -209,10 +209,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/remmina/plugins/remmina-plugin-exec.so
 
-%files plugins-secret
-%defattr(644,root,root,755)
-%{_libdir}/remmina/plugins/remmina-plugin-secret.so
-
 %files plugins-nx
 %defattr(644,root,root,755)
 %{_libdir}/remmina/plugins/remmina-plugin-nx.so
@@ -223,6 +219,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/remmina/plugins/remmina-plugin-rdp.so
 %{_iconsdir}/hicolor/*/emblems/remmina-rdp-ssh-symbolic.svg
 %{_iconsdir}/hicolor/*/emblems/remmina-rdp-symbolic.svg
+
+%files plugins-secret
+%defattr(644,root,root,755)
+%{_libdir}/remmina/plugins/remmina-plugin-secret.so
+
+%files plugins-spice
+%defattr(644,root,root,755)
+%{_libdir}/remmina/plugins/remmina-plugin-spice.so
+%{_iconsdir}/hicolor/*/emblems/remmina-spice-symbolic.svg
+%{_iconsdir}/hicolor/*/emblems/remmina-spice-ssh-symbolic.svg
 
 %files plugins-vnc
 %defattr(644,root,root,755)
@@ -235,11 +241,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/remmina/plugins/remmina-plugin-xdmcp.so
 %{_iconsdir}/hicolor/*/emblems/remmina-xdmcp-ssh-symbolic.svg
 %{_iconsdir}/hicolor/*/emblems/remmina-xdmcp-symbolic.svg
-
-%files plugins-spice
-%defattr(644,root,root,755)
-%{_libdir}/remmina/plugins/remmina-plugin-spice.so
-%{_iconsdir}/hicolor/*/emblems/remmina-spice-symbolic.svg
-%{_iconsdir}/hicolor/*/emblems/remmina-spice-ssh-symbolic.svg
 
 %changelog
