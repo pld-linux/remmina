@@ -9,6 +9,7 @@
 %bcond_without	spice		# do not build spice plugin
 %bcond_without	telepathy	# do not build telepathy plugin
 %bcond_without	vnc		# do not build vnc plugin
+%bcond_without	vte		# do not build vte plugin
 %bcond_without	xdmcp		# do not build xdmcp plugin
 #
 Summary:	Remote Desktop Client
@@ -40,10 +41,10 @@ BuildRequires:	libgcrypt-devel
 BuildRequires:	libsoup-devel
 BuildRequires:	libssh-devel >= 0.6
 %{?with_vnc:BuildRequires:	libvncserver-devel}
-#BuildRequires:	pkgconfig(vte-2.91)
 BuildRequires:	rpmbuild(macros) >= 1.742
 %{?with_spice:BuildRequires:	spice-gtk-devel}
 %{?with_telepathy:BuildRequires:	telepathy-glib-devel}
+%{?with_vte:BuildRequires:	vte2.90-devel}
 BuildRequires:	xorg-lib-libxkbfile-devel
 
 %description
