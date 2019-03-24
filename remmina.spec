@@ -46,6 +46,7 @@ BuildRequires:	rpmbuild(macros) >= 1.742
 %{?with_telepathy:BuildRequires:	telepathy-glib-devel}
 %{?with_vte:BuildRequires:	vte2.90-devel}
 BuildRequires:	xorg-lib-libxkbfile-devel
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Remmina is a remote desktop client written in GTK+, aiming to be
@@ -218,16 +219,25 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc LICENSE AUTHORS ChangeLog README.md
+%attr(755,root,root) %{_bindir}/gnome-session-remmina
 %attr(755,root,root) %{_bindir}/remmina
+%attr(755,root,root) %{_bindir}/remmina-gnome
 %{_datadir}/metainfo/*.appdata.xml
 %{_desktopdir}/*.desktop
 %{_iconsdir}/hicolor/*/actions/*.*
 %{_iconsdir}/hicolor/*/apps/*.*
+%{_iconsdir}/hicolor/*/emblems/remmina-sftp-symbolic.svg
+%{_iconsdir}/hicolor/*/emblems/remmina-ssh-symbolic.svg
+%{_iconsdir}/hicolor/*/emblems/remmina-tool-symbolic.svg
 %{_datadir}/mime/packages/*.xml
 %{_datadir}/%{name}/
+%{_datadir}/xsessions/remmina-gnome.desktop
 %dir %{_libdir}/remmina/
 %dir %{_libdir}/remmina/plugins/
-%{_mandir}/man1/%{name}.*
+%{_libdir}/remmina/plugins/remmina-plugin-st.so
+%{_mandir}/man1/remmina.1*
+%{_mandir}/man1/gnome-session-remmina.1*
+%{_mandir}/man1/remmina-gnome.1*
 
 %files devel
 %defattr(644,root,root,755)
