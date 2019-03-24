@@ -180,6 +180,8 @@ client.
 
 %prep
 %setup -qn Remmina-v%{version}
+%{__sed} -i s/^pt_PT$// po/LINGUAS
+%{__rm} -f po/pt_PT.po
 
 %build
 mkdir -p build
@@ -243,6 +245,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_includedir}/%{name}/
 %{_pkgconfigdir}/%{name}.pc
+%dir %{_libdir}/cmake/%{name}
 %{_libdir}/cmake/%{name}/*.cmake
 
 %if %{with exec}
