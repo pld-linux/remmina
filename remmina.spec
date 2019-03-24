@@ -170,13 +170,12 @@ mkdir -p build
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
 	-DWITH_APPINDICATOR=ON \
 	-DWITH_AVAHI=ON \
-	-DWITH_FREERDP=ON \
+	%{cmake_on_off rdp FREERDP} \
 	-DWITH_GCRYPT=ON \
 	-DWITH_GETTEXT=ON \
 	-DWITH_LIBSSH=ON \
-	-DWITH_SPICE=ON \
-	-DWITH_TELEPATHY=ON \
-	-DWITH_VTE=ON \
+	%{cmake_on_off spice SPICE} \
+	%{cmake_on_off vte VTE} \
 	.
 
 %{__make}
