@@ -46,6 +46,8 @@ BuildRequires:	rpmbuild(macros) >= 1.742
 %{?with_telepathy:BuildRequires:	telepathy-glib-devel}
 %{?with_vte:BuildRequires:	vte2.90-devel}
 BuildRequires:	xorg-lib-libxkbfile-devel
+Requires(post,postun):	gtk-update-icon-cache
+Requires:	hicolor-icon-theme
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -217,6 +219,12 @@ cp -p %{SOURCE1} $RPM_BUILD_ROOT/%{_includedir}/%{name}/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post
+%update_icon_cache hicolor
+
+%postun
+%update_icon_cache hicolor
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
