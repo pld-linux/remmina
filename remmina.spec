@@ -47,7 +47,9 @@ BuildRequires:	rpmbuild(macros) >= 1.742
 %{?with_vte:BuildRequires:	vte2.90-devel}
 BuildRequires:	xorg-lib-libxkbfile-devel
 Requires(post,postun):	gtk-update-icon-cache
+Requires:	avahi-ui-gtk3 >= 0.6.30
 Requires:	hicolor-icon-theme
+Requires:	libssh >= 0.6
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -102,6 +104,7 @@ client.
 %package        plugins-rdp
 Summary:	RDP plugin for Remmina Remote Desktop Client
 Requires:	%{name} = %{version}-%{release}
+Requires:	freerdp2-libs >= 2.0.0-0.20190320
 
 %description    plugins-rdp
 Remmina is a remote desktop client written in GTK+, aiming to be
