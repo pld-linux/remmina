@@ -3,23 +3,23 @@
 #
 # Conditional build:
 %bcond_without	exec		# do not build exec plugin
-%bcond_with	nx		# build nx plugin
+%bcond_without	nx		# build nx plugin
 %bcond_without	rdp		# do not build rdp plugin
 %bcond_without	secret		# do not build secret plugin
 %bcond_without	spice		# do not build spice plugin
-%bcond_without	telepathy	# do not build telepathy plugin
+%bcond_with	telepathy	# do not build telepathy plugin
 %bcond_without	vnc		# do not build vnc plugin
 %bcond_without	vte		# do not build vte plugin
 %bcond_without	xdmcp		# do not build xdmcp plugin
 #
 Summary:	Remote Desktop Client
 Name:		remmina
-Version:	1.3.4
+Version:	1.3.6
 Release:	1
 License:	GPLv2+ and MIT
 Group:		X11/Applications
-Source0:	https://gitlab.com/Remmina/Remmina/-/archive/v1.3.4/Remmina-v%{version}.tar.bz2
-# Source0-md5:	cd00d28c5b895037901d8aa9f9ace9fc
+Source0:	https://gitlab.com/Remmina/Remmina/-/archive/v%{version}/Remmina-v%{version}.tar.bz2
+# Source0-md5:	6da599c3a5cab2df37a70f8fba2f5438
 # Cmake helper file to easy build plugins outside remmina source tree
 # See http://www.muflone.com/remmina-plugin-rdesktop/english/install.html which
 # use http://www.muflone.com/remmina-plugin-builder/ with remmina bundled source.
@@ -232,6 +232,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc LICENSE AUTHORS ChangeLog README.md
+%attr(755,root,root) %{_bindir}/remmina-file-wrapper.sh
 %attr(755,root,root) %{_bindir}/gnome-session-remmina
 %attr(755,root,root) %{_bindir}/remmina
 %attr(755,root,root) %{_bindir}/remmina-gnome
