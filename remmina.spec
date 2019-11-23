@@ -3,7 +3,7 @@
 #
 # Conditional build:
 %bcond_without	exec		# do not build exec plugin
-%bcond_without	nx		# build nx plugin
+%bcond_with	nx		# build nx plugin
 %bcond_without	rdp		# do not build rdp plugin
 %bcond_without	secret		# do not build secret plugin
 %bcond_without	spice		# do not build spice plugin
@@ -15,7 +15,7 @@
 Summary:	Remote Desktop Client
 Name:		remmina
 Version:	1.3.6
-Release:	1
+Release:	2
 License:	GPLv2+ and MIT
 Group:		X11/Applications
 Source0:	https://gitlab.com/Remmina/Remmina/-/archive/v%{version}/Remmina-v%{version}.tar.bz2
