@@ -1,0 +1,8 @@
+--- a/data/desktop/remmina-file-wrapper.in
++++ b/data/desktop/remmina-file-wrapper.in
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/bin/bash
+ #===============================================================================
+ #
+ #          FILE: remmina-file-wrapper

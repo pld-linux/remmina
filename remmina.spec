@@ -10,21 +10,23 @@
 %bcond_with	telepathy	# do not build telepathy plugin
 %bcond_without	vnc		# do not build vnc plugin
 %bcond_without	vte		# do not build vte plugin
+%bcond_without	www		# do not build www plugin
 %bcond_without	xdmcp		# do not build xdmcp plugin
 #
 Summary:	Remote Desktop Client
 Name:		remmina
-Version:	1.3.6
-Release:	2
+Version:	1.4.7
+Release:	1
 License:	GPLv2+ and MIT
 Group:		X11/Applications
 Source0:	https://gitlab.com/Remmina/Remmina/-/archive/v%{version}/Remmina-v%{version}.tar.bz2
-# Source0-md5:	6da599c3a5cab2df37a70f8fba2f5438
+# Source0-md5:	17c9f9530b9863365e9acf18183c69eb
 # Cmake helper file to easy build plugins outside remmina source tree
 # See http://www.muflone.com/remmina-plugin-rdesktop/english/install.html which
 # use http://www.muflone.com/remmina-plugin-builder/ with remmina bundled source.
 # So we can't use it directly only as instructions.
 Source1:	pluginBuild-CMakeLists.txt
+Patch0:		fix-shebangs.patch
 URL:		http://remmina.org
 BuildRequires:	appstream-glib
 BuildRequires:	avahi-ui-gtk3-devel >= 0.6.30
@@ -33,6 +35,7 @@ BuildRequires:	desktop-file-utils
 %{?with_rdp:BuildRequires:	freerdp2-devel >= 2.0.0-0.20190320}
 BuildRequires:	gettext
 BuildRequires:	gtk+3-devel
+%{?with_www:BuildRequires:      gtk-webkit4-devel}
 BuildRequires:	intltool
 BuildRequires:	json-glib-devel
 BuildRequires:	libappindicator-gtk3-devel
@@ -44,7 +47,7 @@ BuildRequires:	libssh-devel >= 0.6
 BuildRequires:	rpmbuild(macros) >= 1.742
 %{?with_spice:BuildRequires:	spice-gtk-devel}
 %{?with_telepathy:BuildRequires:	telepathy-glib-devel}
-%{?with_vte:BuildRequires:	vte2.90-devel}
+%{?with_vte:BuildRequires:	vte-devel}
 BuildRequires:	xorg-lib-libxkbfile-devel
 Requires(post,postun):	gtk-update-icon-cache
 Requires:	avahi-ui-gtk3 >= 0.6.30
@@ -169,6 +172,19 @@ net-books.
 This package contains the VNC plugin for the Remmina remote desktop
 client.
 
+%package        plugins-www
+Summary:	Browser plugin for Remmina Remote Desktop Client
+Requires:	%{name} = %{version}-%{release}
+
+%description    plugins-www
+Remmina is a remote desktop client written in GTK+, aiming to be
+useful for system administrators and travelers, who need to work with
+lots of remote computers in front of either large monitors or tiny
+net-books.
+
+This package contains the www plugin for the Remmina remote desktop
+client.
+
 %package        plugins-xdmcp
 Summary:	XDMCP plugin for Remmina Remote Desktop Client
 Requires:	%{name} = %{version}-%{release}
@@ -187,6 +203,7 @@ client.
 %setup -qn Remmina-v%{version}
 %{__sed} -i s/^pt_PT$// po/LINGUAS
 %{__rm} -f po/pt_PT.po
+%patch0 -p1
 
 %build
 mkdir -p build
@@ -218,6 +235,9 @@ cp -pr cmake/*.cmake $RPM_BUILD_ROOT/%{_libdir}/cmake/%{name}/
 cp -pr config.h.in $RPM_BUILD_ROOT/%{_includedir}/%{name}/
 cp -p %{SOURCE1} $RPM_BUILD_ROOT/%{_includedir}/%{name}/
 
+# not supported by glibc yet
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{br,ckb,eo,ie,hi,shn}
+
 %find_lang %{name}
 
 %clean
@@ -232,10 +252,8 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc LICENSE AUTHORS ChangeLog README.md
-%attr(755,root,root) %{_bindir}/remmina-file-wrapper.sh
-%attr(755,root,root) %{_bindir}/gnome-session-remmina
+%attr(755,root,root) %{_bindir}/remmina-file-wrapper
 %attr(755,root,root) %{_bindir}/remmina
-%attr(755,root,root) %{_bindir}/remmina-gnome
 %{_datadir}/metainfo/*.appdata.xml
 %{_desktopdir}/*.desktop
 %{_iconsdir}/hicolor/*/actions/*.*
@@ -243,15 +261,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_iconsdir}/hicolor/*/emblems/remmina-sftp-symbolic.svg
 %{_iconsdir}/hicolor/*/emblems/remmina-ssh-symbolic.svg
 %{_iconsdir}/hicolor/*/emblems/remmina-tool-symbolic.svg
+%dir %{_iconsdir}/hicolor/apps
+%{_iconsdir}/hicolor/apps/*.*
+%dir %{_iconsdir}/hicolor/scalable/panel
+%{_iconsdir}/hicolor/scalable/panel/*.*
 %{_datadir}/mime/packages/*.xml
 %{_datadir}/%{name}/
-%{_datadir}/xsessions/remmina-gnome.desktop
 %dir %{_libdir}/remmina/
 %dir %{_libdir}/remmina/plugins/
-%{_libdir}/remmina/plugins/remmina-plugin-st.so
+%attr(755,root,root) %{_libdir}/remmina/plugins/remmina-plugin-st.so
 %{_mandir}/man1/remmina.1*
-%{_mandir}/man1/gnome-session-remmina.1*
-%{_mandir}/man1/remmina-gnome.1*
+%{_mandir}/man1/remmina-file-wrapper.1*
 
 %files devel
 %defattr(644,root,root,755)
@@ -263,20 +283,20 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with exec}
 %files plugins-exec
 %defattr(644,root,root,755)
-%{_libdir}/remmina/plugins/remmina-plugin-exec.so
+%attr(755,root,root) %{_libdir}/remmina/plugins/remmina-plugin-exec.so
 %endif
 
 %if %{with nx}
 %files plugins-nx
 %defattr(644,root,root,755)
-%{_libdir}/remmina/plugins/remmina-plugin-nx.so
+%attr(755,root,root) %{_libdir}/remmina/plugins/remmina-plugin-nx.so
 %{_iconsdir}/hicolor/*/emblems/remmina-nx-symbolic.svg
 %endif
 
 %if %{with rdp}
 %files plugins-rdp
 %defattr(644,root,root,755)
-%{_libdir}/remmina/plugins/remmina-plugin-rdp.so
+%attr(755,root,root) %{_libdir}/remmina/plugins/remmina-plugin-rdp.so
 %{_iconsdir}/hicolor/*/emblems/remmina-rdp-ssh-symbolic.svg
 %{_iconsdir}/hicolor/*/emblems/remmina-rdp-symbolic.svg
 %endif
@@ -284,13 +304,13 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with secret}
 %files plugins-secret
 %defattr(644,root,root,755)
-%{_libdir}/remmina/plugins/remmina-plugin-secret.so
+%attr(755,root,root) %{_libdir}/remmina/plugins/remmina-plugin-secret.so
 %endif
 
 %if %{with spice}
 %files plugins-spice
 %defattr(644,root,root,755)
-%{_libdir}/remmina/plugins/remmina-plugin-spice.so
+%attr(755,root,root) %{_libdir}/remmina/plugins/remmina-plugin-spice.so
 %{_iconsdir}/hicolor/*/emblems/remmina-spice-symbolic.svg
 %{_iconsdir}/hicolor/*/emblems/remmina-spice-ssh-symbolic.svg
 %endif
@@ -298,7 +318,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with telepathy}
 %files plugins-telepathy
 %defattr(644,root,root,755)
-%{_libdir}/remmina/plugins/remmina-plugin-telepathy.so
+%attr(755,root,root) %{_libdir}/remmina/plugins/remmina-plugin-telepathy.so
 %{_datadir}/dbus-1/services/org.freedesktop.Telepathy.Client.Remmina.service
 %{_datadir}/telepathy/clients/Remmina.client
 %endif
@@ -306,15 +326,22 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with vnc}
 %files plugins-vnc
 %defattr(644,root,root,755)
-%{_libdir}/remmina/plugins/remmina-plugin-vnc.so
+%attr(755,root,root) %{_libdir}/remmina/plugins/remmina-plugin-vnc.so
 %{_iconsdir}/hicolor/*/emblems/remmina-vnc-ssh-symbolic.svg
 %{_iconsdir}/hicolor/*/emblems/remmina-vnc-symbolic.svg
+%endif
+
+%if %{with www}
+%files plugins-www
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/remmina/plugins/remmina-plugin-www.so
+%{_iconsdir}/hicolor/*/emblems/remmina-www-symbolic.svg
 %endif
 
 %if %{with xdmcp}
 %files plugins-xdmcp
 %defattr(644,root,root,755)
-%{_libdir}/remmina/plugins/remmina-plugin-xdmcp.so
+%attr(755,root,root) %{_libdir}/remmina/plugins/remmina-plugin-xdmcp.so
 %{_iconsdir}/hicolor/*/emblems/remmina-xdmcp-ssh-symbolic.svg
 %{_iconsdir}/hicolor/*/emblems/remmina-xdmcp-symbolic.svg
 %endif
