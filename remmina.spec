@@ -42,7 +42,7 @@ BuildRequires:	libappindicator-gtk3-devel
 BuildRequires:	libgcrypt-devel
 %{?with_secret:BuildRequires:	libsecret-devel}
 BuildRequires:	libsoup-devel
-BuildRequires:	libssh-devel >= 0.6
+%{?with_nx:BuildRequires:	libssh-devel >= 0.6}
 %{?with_vnc:BuildRequires:	libvncserver-devel}
 BuildRequires:	rpmbuild(macros) >= 1.742
 %{?with_spice:BuildRequires:	spice-gtk-devel}
@@ -216,7 +216,8 @@ mkdir -p build
 	%{cmake_on_off rdp FREERDP} \
 	-DWITH_GCRYPT=ON \
 	-DWITH_GETTEXT=ON \
-	-DWITH_LIBSSH=ON \
+	-DWITH_LIBSSH=OFF \
+	%{cmake_on_off nx WITH_LIBSSH} \
 	%{cmake_on_off vnc LIBVNCSERVER} \
 	%{cmake_on_off spice SPICE} \
 	%{cmake_on_off telepathy TELEPATHY} \
