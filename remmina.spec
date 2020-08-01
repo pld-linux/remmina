@@ -216,7 +216,6 @@ mkdir -p build
 	%{cmake_on_off rdp FREERDP} \
 	-DWITH_GCRYPT=ON \
 	-DWITH_GETTEXT=ON \
-	-DWITH_LIBSSH=OFF \
 	%{cmake_on_off nx WITH_LIBSSH} \
 	%{cmake_on_off vnc LIBVNCSERVER} \
 	%{cmake_on_off spice SPICE} \
