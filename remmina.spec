@@ -7,7 +7,6 @@
 %bcond_without	rdp		# do not build rdp plugin
 %bcond_without	secret		# do not build secret plugin
 %bcond_without	spice		# do not build spice plugin
-%bcond_with	telepathy	# do not build telepathy plugin
 %bcond_without	vnc		# do not build vnc plugin
 %bcond_without	vte		# do not build vte plugin
 %bcond_without	www		# do not build www plugin
@@ -46,7 +45,6 @@ BuildRequires:	libsoup-devel
 %{?with_vnc:BuildRequires:	libvncserver-devel}
 BuildRequires:	rpmbuild(macros) >= 1.742
 %{?with_spice:BuildRequires:	spice-gtk-devel}
-%{?with_telepathy:BuildRequires:	telepathy-glib-devel}
 %{?with_vte:BuildRequires:	vte-devel}
 BuildRequires:	xorg-lib-libxkbfile-devel
 Requires(post,postun):	gtk-update-icon-cache
@@ -146,19 +144,6 @@ net-books.
 This package contains the SPICE plugin for the Remmina remote desktop
 client.
 
-%package        plugins-telepathy
-Summary:	Telepathy plugin for Remmina Remote Desktop Client
-Requires:	%{name} = %{version}-%{release}
-
-%description    plugins-telepathy
-Remmina is a remote desktop client written in GTK+, aiming to be
-useful for system administrators and travelers, who need to work with
-lots of remote computers in front of either large monitors or tiny
-net-books.
-
-This package contains the Telepathy plugin for the Remmina remote
-desktop client.
-
 %package        plugins-vnc
 Summary:	VNC plugin for Remmina Remote Desktop Client
 Requires:	%{name} = %{version}-%{release}
@@ -213,14 +198,14 @@ mkdir -p build
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
 	-DWITH_APPINDICATOR=ON \
 	-DWITH_AVAHI=ON \
-	%{cmake_on_off rdp FREERDP} \
+	-DWITH_CUPS=ON \
 	-DWITH_GCRYPT=ON \
 	-DWITH_GETTEXT=ON \
+	-DWITH_LIBSECRET=ON \
 	%{cmake_on_off nx WITH_LIBSSH} \
-	%{cmake_on_off vnc LIBVNCSERVER} \
-	%{cmake_on_off spice SPICE} \
-	%{cmake_on_off telepathy TELEPATHY} \
-	%{cmake_on_off vte VTE} \
+	%{cmake_on_off vnc WITH_LIBVNCSERVER} \
+	%{cmake_on_off spice WITH_SPICE} \
+	%{cmake_on_off vte WITH_VTE} \
 	.
 
 %{__make}
@@ -313,14 +298,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/remmina/plugins/remmina-plugin-spice.so
 %{_iconsdir}/hicolor/*/emblems/remmina-spice-symbolic.svg
 %{_iconsdir}/hicolor/*/emblems/remmina-spice-ssh-symbolic.svg
-%endif
-
-%if %{with telepathy}
-%files plugins-telepathy
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/remmina/plugins/remmina-plugin-telepathy.so
-%{_datadir}/dbus-1/services/org.freedesktop.Telepathy.Client.Remmina.service
-%{_datadir}/telepathy/clients/Remmina.client
 %endif
 
 %if %{with vnc}
