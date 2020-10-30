@@ -50,7 +50,7 @@ BuildRequires:	xorg-lib-libxkbfile-devel
 Requires(post,postun):	gtk-update-icon-cache
 Requires:	avahi-ui-gtk3 >= 0.6.30
 Requires:	hicolor-icon-theme
-Requires:	libssh >= 0.6
+%{?with_nx:Requires:	libssh >= 0.6}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
