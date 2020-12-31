@@ -14,12 +14,12 @@
 #
 Summary:	Remote Desktop Client
 Name:		remmina
-Version:	1.4.8
+Version:	1.4.10
 Release:	1
 License:	GPLv2+ and MIT
 Group:		X11/Applications
 Source0:	https://gitlab.com/Remmina/Remmina/-/archive/v%{version}/Remmina-v%{version}.tar.bz2
-# Source0-md5:	92cbd7708fcced020e706e0eb8bc96a0
+# Source0-md5:	0a99a9d115a3f0c533e0664794133511
 # Cmake helper file to easy build plugins outside remmina source tree
 # See http://www.muflone.com/remmina-plugin-rdesktop/english/install.html which
 # use http://www.muflone.com/remmina-plugin-builder/ with remmina bundled source.
@@ -30,6 +30,7 @@ URL:		http://remmina.org
 BuildRequires:	appstream-glib
 BuildRequires:	avahi-ui-gtk3-devel >= 0.6.30
 BuildRequires:	cmake >= 2.8
+BuildRequires:	cups-devel
 BuildRequires:	desktop-file-utils
 %{?with_rdp:BuildRequires:	freerdp2-devel >= 2.0.0-0.20190320}
 BuildRequires:	gettext
@@ -39,7 +40,9 @@ BuildRequires:	intltool
 BuildRequires:	json-glib-devel
 BuildRequires:	libappindicator-gtk3-devel
 BuildRequires:	libgcrypt-devel
+BuildRequires:	pcre2-8-devel
 %{?with_secret:BuildRequires:	libsecret-devel}
+BuildRequires:	libsodium-devel
 BuildRequires:	libsoup-devel
 %{?with_nx:BuildRequires:	libssh-devel >= 0.6}
 %{?with_vnc:BuildRequires:	libvncserver-devel}
