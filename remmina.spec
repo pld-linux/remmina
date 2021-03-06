@@ -14,12 +14,12 @@
 #
 Summary:	Remote Desktop Client
 Name:		remmina
-Version:	1.4.11
+Version:	1.4.12
 Release:	1
 License:	GPLv2+ and MIT
 Group:		X11/Applications
 Source0:	https://gitlab.com/Remmina/Remmina/-/archive/v%{version}/Remmina-v%{version}.tar.bz2
-# Source0-md5:	2db45b1ce6c2952f2535ea4044032412
+# Source0-md5:	7960aeb54fc554227552d689f1c3b366
 # Cmake helper file to easy build plugins outside remmina source tree
 # See http://www.muflone.com/remmina-plugin-rdesktop/english/install.html which
 # use http://www.muflone.com/remmina-plugin-builder/ with remmina bundled source.
@@ -224,7 +224,7 @@ cp -pr config.h.in $RPM_BUILD_ROOT/%{_includedir}/%{name}/
 cp -p %{SOURCE1} $RPM_BUILD_ROOT/%{_includedir}/%{name}/
 
 # not supported by glibc yet
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{ber,br,ckb,eo,ie,hi,shn}
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{ber,br,ckb,eo,ie,ka,hi,shn}
 
 %find_lang %{name}
 
