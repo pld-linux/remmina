@@ -14,12 +14,12 @@
 #
 Summary:	Remote Desktop Client
 Name:		remmina
-Version:	1.4.18
+Version:	1.4.19
 Release:	1
 License:	GPLv2+ and MIT
 Group:		X11/Applications
 Source0:	https://gitlab.com/Remmina/Remmina/-/archive/v%{version}/Remmina-v%{version}.tar.bz2
-# Source0-md5:	418348ed1ba7a252143de7922e974678
+# Source0-md5:	fd5ccb90166703ad4767ac30b63f0900
 # Cmake helper file to easy build plugins outside remmina source tree
 # See http://www.muflone.com/remmina-plugin-rdesktop/english/install.html which
 # use http://www.muflone.com/remmina-plugin-builder/ with remmina bundled source.
@@ -249,10 +249,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_iconsdir}/hicolor/*/emblems/remmina-sftp-symbolic.svg
 %{_iconsdir}/hicolor/*/emblems/remmina-ssh-symbolic.svg
 %{_iconsdir}/hicolor/*/emblems/remmina-tool-symbolic.svg
+%{_iconsdir}/hicolor/*/status/remmina-status.svg
 %dir %{_iconsdir}/hicolor/apps
 %{_iconsdir}/hicolor/apps/*.*
-%dir %{_iconsdir}/hicolor/scalable/panel
-%{_iconsdir}/hicolor/scalable/panel/*.*
 %{_datadir}/mime/packages/*.xml
 %{_datadir}/%{name}/
 %dir %{_libdir}/remmina/
