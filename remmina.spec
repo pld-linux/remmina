@@ -3,23 +3,21 @@
 #
 # Conditional build:
 %bcond_without	exec		# do not build exec plugin
-%bcond_with	nx		# build nx plugin
 %bcond_without	rdp		# do not build rdp plugin
 %bcond_without	secret		# do not build secret plugin
 %bcond_without	spice		# do not build spice plugin
 %bcond_without	vnc		# do not build vnc plugin
 %bcond_without	vte		# do not build vte plugin
 %bcond_without	www		# do not build www plugin
-%bcond_without	xdmcp		# do not build xdmcp plugin
 #
 Summary:	Remote Desktop Client
 Name:		remmina
-Version:	1.4.19
+Version:	1.4.20
 Release:	1
 License:	GPLv2+ and MIT
 Group:		X11/Applications
 Source0:	https://gitlab.com/Remmina/Remmina/-/archive/v%{version}/Remmina-v%{version}.tar.bz2
-# Source0-md5:	fd5ccb90166703ad4767ac30b63f0900
+# Source0-md5:	8fa0f57d2ebb2f35d11bab99345a8acf
 # Cmake helper file to easy build plugins outside remmina source tree
 # See http://www.muflone.com/remmina-plugin-rdesktop/english/install.html which
 # use http://www.muflone.com/remmina-plugin-builder/ with remmina bundled source.
@@ -40,12 +38,11 @@ BuildRequires:	intltool
 BuildRequires:	json-glib-devel
 BuildRequires:	libappindicator-gtk3-devel
 BuildRequires:	libgcrypt-devel
-BuildRequires:	pcre2-8-devel
 %{?with_secret:BuildRequires:	libsecret-devel}
 BuildRequires:	libsodium-devel
 BuildRequires:	libsoup-devel
-%{?with_nx:BuildRequires:	libssh-devel >= 0.6}
 %{?with_vnc:BuildRequires:	libvncserver-devel}
+BuildRequires:	pcre2-8-devel
 BuildRequires:	rpmbuild(macros) >= 1.742
 %{?with_spice:BuildRequires:	spice-gtk-devel}
 %{?with_vte:BuildRequires:	vte-devel}
@@ -53,7 +50,8 @@ BuildRequires:	xorg-lib-libxkbfile-devel
 Requires(post,postun):	gtk-update-icon-cache
 Requires:	avahi-ui-gtk3 >= 0.6.30
 Requires:	hicolor-icon-theme
-%{?with_nx:Requires:	libssh >= 0.6}
+Obsoletes:	remmina-plugins-nx < 1.4.20
+Obsoletes:	remmina-plugins-xdmcp < 1.4.20
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -90,20 +88,6 @@ net-books.
 
 This package contains the plugin to execute external processes
 (commands or applications) from the Remmina window.
-
-%package        plugins-nx
-Summary:	NX plugin for Remmina Remote Desktop Client
-Requires:	%{name} = %{version}-%{release}
-Requires:	nxproxy
-
-%description    plugins-nx
-Remmina is a remote desktop client written in GTK+, aiming to be
-useful for system administrators and travelers, who need to work with
-lots of remote computers in front of either large monitors or tiny
-net-books.
-
-This package contains the NX plugin for the Remmina remote desktop
-client.
 
 %package        plugins-rdp
 Summary:	RDP plugin for Remmina Remote Desktop Client
@@ -173,20 +157,6 @@ net-books.
 This package contains the www plugin for the Remmina remote desktop
 client.
 
-%package        plugins-xdmcp
-Summary:	XDMCP plugin for Remmina Remote Desktop Client
-Requires:	%{name} = %{version}-%{release}
-Requires:	xorg-xserver-Xephyr
-
-%description    plugins-xdmcp
-Remmina is a remote desktop client written in GTK+, aiming to be
-useful for system administrators and travelers, who need to work with
-lots of remote computers in front of either large monitors or tiny
-net-books.
-
-This package contains the XDMCP plugin for the Remmina remote desktop
-client.
-
 %prep
 %setup -qn Remmina-v%{version}
 %{__sed} -i s/^pt_PT$// po/LINGUAS
@@ -205,7 +175,6 @@ mkdir -p build
 	-DWITH_GCRYPT=ON \
 	-DWITH_GETTEXT=ON \
 	-DWITH_LIBSECRET=ON \
-	%{cmake_on_off nx WITH_LIBSSH} \
 	%{cmake_on_off vnc WITH_LIBVNCSERVER} \
 	%{cmake_on_off spice WITH_SPICE} \
 	%{cmake_on_off vte WITH_VTE} \
@@ -218,10 +187,10 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT/%{_libdir}/cmake/%{name}/
-cp -pr cmake/*.cmake $RPM_BUILD_ROOT/%{_libdir}/cmake/%{name}/
-cp -pr config.h.in $RPM_BUILD_ROOT/%{_includedir}/%{name}/
-cp -p %{SOURCE1} $RPM_BUILD_ROOT/%{_includedir}/%{name}/
+install -d $RPM_BUILD_ROOT%{_libdir}/cmake/%{name}/
+cp -pr cmake/*.cmake $RPM_BUILD_ROOT%{_libdir}/cmake/%{name}/
+cp -pr config.h.in $RPM_BUILD_ROOT%{_includedir}/%{name}/
+cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_includedir}/%{name}/
 
 # not supported by glibc yet
 %{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{ber,br,ckb,eo,ie,ka,hi,shn}
@@ -256,7 +225,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/
 %dir %{_libdir}/remmina/
 %dir %{_libdir}/remmina/plugins/
-%attr(755,root,root) %{_libdir}/remmina/plugins/remmina-plugin-st.so
 %{_mandir}/man1/remmina.1*
 %{_mandir}/man1/remmina-file-wrapper.1*
 
@@ -271,13 +239,6 @@ rm -rf $RPM_BUILD_ROOT
 %files plugins-exec
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/remmina/plugins/remmina-plugin-exec.so
-%endif
-
-%if %{with nx}
-%files plugins-nx
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/remmina/plugins/remmina-plugin-nx.so
-%{_iconsdir}/hicolor/*/emblems/remmina-nx-symbolic.svg
 %endif
 
 %if %{with rdp}
@@ -315,14 +276,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/remmina/plugins/remmina-plugin-www.so
 %{_iconsdir}/hicolor/*/emblems/remmina-www-symbolic.svg
-%endif
-
-%if %{with xdmcp}
-%files plugins-xdmcp
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/remmina/plugins/remmina-plugin-xdmcp.so
-%{_iconsdir}/hicolor/*/emblems/remmina-xdmcp-ssh-symbolic.svg
-%{_iconsdir}/hicolor/*/emblems/remmina-xdmcp-symbolic.svg
 %endif
 
 %changelog
