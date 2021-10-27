@@ -12,12 +12,12 @@
 #
 Summary:	Remote Desktop Client
 Name:		remmina
-Version:	1.4.20
-Release:	2
+Version:	1.4.21
+Release:	1
 License:	GPLv2+ and MIT
 Group:		X11/Applications
 Source0:	https://gitlab.com/Remmina/Remmina/-/archive/v%{version}/Remmina-v%{version}.tar.bz2
-# Source0-md5:	8fa0f57d2ebb2f35d11bab99345a8acf
+# Source0-md5:	de0e097cfc2ad74091d5a44d51b921d7
 # Cmake helper file to easy build plugins outside remmina source tree
 # See http://www.muflone.com/remmina-plugin-rdesktop/english/install.html which
 # use http://www.muflone.com/remmina-plugin-builder/ with remmina bundled source.
@@ -215,10 +215,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/*.desktop
 %{_iconsdir}/hicolor/*/actions/*.*
 %{_iconsdir}/hicolor/*/apps/*.*
-%{_iconsdir}/hicolor/*/emblems/remmina-sftp-symbolic.svg
-%{_iconsdir}/hicolor/*/emblems/remmina-ssh-symbolic.svg
-%{_iconsdir}/hicolor/*/emblems/remmina-tool-symbolic.svg
-%{_iconsdir}/hicolor/*/status/remmina-status.svg
+%{_iconsdir}/hicolor/*/emblems/org.remmina.Remmina-sftp-symbolic.svg
+%{_iconsdir}/hicolor/*/emblems/org.remmina.Remmina-ssh-symbolic.svg
+%{_iconsdir}/hicolor/*/emblems/org.remmina.Remmina-tool-symbolic.svg
+%{_iconsdir}/hicolor/*/status/org.remmina.Remmina-status.svg
 %dir %{_iconsdir}/hicolor/apps
 %{_iconsdir}/hicolor/apps/*.*
 %{_datadir}/mime/packages/*.xml
@@ -245,8 +245,8 @@ rm -rf $RPM_BUILD_ROOT
 %files plugins-rdp
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/remmina/plugins/remmina-plugin-rdp.so
-%{_iconsdir}/hicolor/*/emblems/remmina-rdp-ssh-symbolic.svg
-%{_iconsdir}/hicolor/*/emblems/remmina-rdp-symbolic.svg
+%{_iconsdir}/hicolor/*/emblems/org.remmina.Remmina-rdp-ssh-symbolic.svg
+%{_iconsdir}/hicolor/*/emblems/org.remmina.Remmina-rdp-symbolic.svg
 %endif
 
 %if %{with secret}
@@ -259,23 +259,23 @@ rm -rf $RPM_BUILD_ROOT
 %files plugins-spice
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/remmina/plugins/remmina-plugin-spice.so
-%{_iconsdir}/hicolor/*/emblems/remmina-spice-symbolic.svg
-%{_iconsdir}/hicolor/*/emblems/remmina-spice-ssh-symbolic.svg
+%{_iconsdir}/hicolor/*/emblems/org.remmina.Remmina-spice-symbolic.svg
+%{_iconsdir}/hicolor/*/emblems/org.remmina.Remmina-spice-ssh-symbolic.svg
 %endif
 
 %if %{with vnc}
 %files plugins-vnc
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/remmina/plugins/remmina-plugin-vnc.so
-%{_iconsdir}/hicolor/*/emblems/remmina-vnc-ssh-symbolic.svg
-%{_iconsdir}/hicolor/*/emblems/remmina-vnc-symbolic.svg
+%{_iconsdir}/hicolor/*/emblems/org.remmina.Remmina-vnc-ssh-symbolic.svg
+%{_iconsdir}/hicolor/*/emblems/org.remmina.Remmina-vnc-symbolic.svg
 %endif
 
 %if %{with www}
 %files plugins-www
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/remmina/plugins/remmina-plugin-www.so
-%{_iconsdir}/hicolor/*/emblems/remmina-www-symbolic.svg
+%{_iconsdir}/hicolor/*/emblems/org.remmina.Remmina-www-symbolic.svg
 %endif
 
 %changelog
