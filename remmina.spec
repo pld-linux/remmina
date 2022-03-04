@@ -12,12 +12,12 @@
 #
 Summary:	Remote Desktop Client
 Name:		remmina
-Version:	1.4.23
+Version:	1.4.24
 Release:	1
 License:	GPLv2+ and MIT
 Group:		X11/Applications
 Source0:	https://gitlab.com/Remmina/Remmina/-/archive/v%{version}/Remmina-v%{version}.tar.bz2
-# Source0-md5:	e4653bfd2ec126b5ff369fe553d42593
+# Source0-md5:	d560d6caa4d133db23c93bff26cfe4b4
 # Cmake helper file to easy build plugins outside remmina source tree
 # See http://www.muflone.com/remmina-plugin-rdesktop/english/install.html which
 # use http://www.muflone.com/remmina-plugin-builder/ with remmina bundled source.
@@ -165,8 +165,8 @@ client.
 
 %build
 mkdir -p build
-
-%cmake --build=build \
+cd build
+%cmake \
 	-DCMAKE_INSTALL_LIBDIR=%{_lib} \
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
 	-DWITH_APPINDICATOR=ON \
@@ -178,14 +178,16 @@ mkdir -p build
 	%{cmake_on_off vnc WITH_LIBVNCSERVER} \
 	%{cmake_on_off spice WITH_SPICE} \
 	%{cmake_on_off vte WITH_VTE} \
-	.
+	..
 
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
+cd build
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
+cd ..
 
 install -d $RPM_BUILD_ROOT%{_libdir}/cmake/%{name}/
 cp -pr cmake/*.cmake $RPM_BUILD_ROOT%{_libdir}/cmake/%{name}/
