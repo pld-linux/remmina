@@ -12,12 +12,12 @@
 #
 Summary:	Remote Desktop Client
 Name:		remmina
-Version:	1.4.25
+Version:	1.4.27
 Release:	1
 License:	GPLv2+ and MIT
 Group:		X11/Applications
 Source0:	https://gitlab.com/Remmina/Remmina/-/archive/v%{version}/Remmina-v%{version}.tar.bz2
-# Source0-md5:	5906324e16b5ae9296c602889099b925
+# Source0-md5:	241aed2711738e6fd9676fce27a9cc18
 # Cmake helper file to easy build plugins outside remmina source tree
 # See http://www.muflone.com/remmina-plugin-rdesktop/english/install.html which
 # use http://www.muflone.com/remmina-plugin-builder/ with remmina bundled source.
@@ -43,6 +43,7 @@ BuildRequires:	libsodium-devel
 BuildRequires:	libsoup-devel
 %{?with_vnc:BuildRequires:	libvncserver-devel}
 BuildRequires:	pcre2-8-devel
+BuildRequires:	python3-devel
 BuildRequires:	rpmbuild(macros) >= 1.742
 %{?with_spice:BuildRequires:	spice-gtk-devel}
 %{?with_vte:BuildRequires:	vte-devel}
@@ -88,6 +89,19 @@ net-books.
 
 This package contains the plugin to execute external processes
 (commands or applications) from the Remmina window.
+
+%package        plugins-python_wrapper
+Summary:	Python Wrapper plugin for Remmina Remote Desktop Client
+Requires:	%{name} = %{version}-%{release}
+Requires:	freerdp2-libs >= 2.0.0-0.20190320
+
+%description    plugins-python_wrapper
+Remmina is a remote desktop client written in GTK+, aiming to be
+useful for system administrators and travelers, who need to work with
+lots of remote computers in front of either large monitors or tiny
+net-books.
+
+This package enables Python plugins for Remmina.
 
 %package        plugins-rdp
 Summary:	RDP plugin for Remmina Remote Desktop Client
@@ -242,6 +256,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/remmina/plugins/remmina-plugin-exec.so
 %endif
+
+%files plugins-python_wrapper
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/remmina/plugins/remmina-plugin-python_wrapper.so
 
 %if %{with rdp}
 %files plugins-rdp
