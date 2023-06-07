@@ -2,7 +2,6 @@
 # note: disabling plugins will still build them if deps are met
 #
 # Conditional build:
-%bcond_without	exec		# do not build exec plugin
 %bcond_without	rdp		# do not build rdp plugin
 %bcond_without	secret		# do not build secret plugin
 %bcond_without	spice		# do not build spice plugin
@@ -264,11 +263,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/cmake/%{name}
 %{_libdir}/cmake/%{name}/*.cmake
 
-%if %{with exec}
 %files plugins-exec
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/remmina/plugins/remmina-plugin-exec.so
-%endif
 
 %files plugins-python_wrapper
 %defattr(644,root,root,755)
