@@ -25,31 +25,43 @@ Source0:	https://gitlab.com/Remmina/Remmina/-/archive/v%{version}/Remmina-v%{ver
 Source1:	pluginBuild-CMakeLists.txt
 Patch0:		fix-shebangs.patch
 URL:		http://remmina.org
-BuildRequires:	appstream-glib
+BuildRequires:	atk-devel
+BuildRequires:	avahi-devel >= 0.6.30
 BuildRequires:	avahi-ui-gtk3-devel >= 0.6.30
-BuildRequires:	cmake >= 2.8
-BuildRequires:	cups-devel
-BuildRequires:	desktop-file-utils
+BuildRequires:	cairo-devel
+BuildRequires:	cmake >= 3.10.0
+%{?with_rdp:BuildRequires:	cups-devel}
 %{?with_rdp:BuildRequires:	freerdp2-devel >= 2.0.0-0.20190320}
-BuildRequires:	gettext
-BuildRequires:	gtk+3-devel
+BuildRequires:	gdk-pixbuf2-devel
+BuildRequires:	gettext-tools
+BuildRequires:	glib2-devel
+BuildRequires:	gtk+3-devel >= 3.14.0
 %{?with_www:BuildRequires:      gtk-webkit4-devel}
-BuildRequires:	intltool
+BuildRequires:	harfbuzz-devel
 BuildRequires:	json-glib-devel
-BuildRequires:	libappindicator-gtk3-devel
+BuildRequires:	libayatana-appindicator-gtk3-devel
 BuildRequires:	libgcrypt-devel
 %{?with_secret:BuildRequires:	libsecret-devel}
 BuildRequires:	libsodium-devel
-BuildRequires:	libsoup-devel
+%{?with_www:BuildRequires:	libsoup3-devel}
+BuildRequires:	libssh-devel >= 0.6
 %{?with_vnc:BuildRequires:	libvncserver-devel}
+BuildRequires:	pango-devel
 BuildRequires:	pcre2-8-devel
+BuildRequires:	pkgconfig
 BuildRequires:	python3-devel
 BuildRequires:	rpmbuild(macros) >= 1.742
-%{?with_spice:BuildRequires:	spice-gtk-devel}
-%{?with_vte:BuildRequires:	vte-devel}
-BuildRequires:	xorg-lib-libxkbfile-devel
+%if %{with spice}
+BuildRequires:	spice-glib-devel
+BuildRequires:	spice-gtk-devel
+BuildRequires:	spice-protocol
+%endif
+BuildRequires:	wayland-devel
+%{?with_vte:BuildRequires:	vte-devel >= 0.38}
+BuildRequires:	xorg-lib-libxkbcommon-devel
 Requires(post,postun):	gtk-update-icon-cache
 Requires:	avahi-ui-gtk3 >= 0.6.30
+Requires:	gtk+3 >= 3.14.0
 Requires:	hicolor-icon-theme
 Obsoletes:	remmina-plugins-nx < 1.4.20
 Obsoletes:	remmina-plugins-xdmcp < 1.4.20
@@ -93,7 +105,6 @@ This package contains the plugin to execute external processes
 %package        plugins-python_wrapper
 Summary:	Python Wrapper plugin for Remmina Remote Desktop Client
 Requires:	%{name} = %{version}-%{release}
-Requires:	freerdp2-libs >= 2.0.0-0.20190320
 
 %description    plugins-python_wrapper
 Remmina is a remote desktop client written in GTK+, aiming to be
