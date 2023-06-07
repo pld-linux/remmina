@@ -188,9 +188,11 @@ cd build
 	-DWITH_CUPS=ON \
 	-DWITH_GCRYPT=ON \
 	-DWITH_GETTEXT=ON \
+	-DWITH_ICON_CACHE=OFF \
 	-DWITH_LIBSECRET=ON \
 	%{cmake_on_off vnc WITH_LIBVNCSERVER} \
 	%{cmake_on_off spice WITH_SPICE} \
+	-DWITH_UPDATE_DESKTOP_DB=OFF \
 	%{cmake_on_off vte WITH_VTE} \
 	..
 
