@@ -58,7 +58,9 @@ BuildRequires:	spice-protocol
 BuildRequires:	wayland-devel
 %{?with_vte:BuildRequires:	vte-devel >= 0.38}
 BuildRequires:	xorg-lib-libxkbcommon-devel
+Requires(post,postun):	desktop-file-utils
 Requires(post,postun):	gtk-update-icon-cache
+Requires(post,postun):	shared-mime-info
 Requires:	avahi-ui-gtk3 >= 0.6.30
 Requires:	gtk+3 >= 3.14.0
 Requires:	hicolor-icon-theme
@@ -231,9 +233,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 %update_icon_cache hicolor
+%update_desktop_database
+%update_mime_database
 
 %postun
 %update_icon_cache hicolor
+%update_desktop_database
+%update_mime_database
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
