@@ -199,11 +199,12 @@ cd build
 	-DWITH_GCRYPT=ON \
 	-DWITH_GETTEXT=ON \
 	-DWITH_ICON_CACHE=OFF \
-	-DWITH_LIBSECRET=ON \
+	%{cmake_on_off secret WITH_LIBSECRET} \
 	%{cmake_on_off vnc WITH_LIBVNCSERVER} \
 	%{cmake_on_off spice WITH_SPICE} \
 	-DWITH_UPDATE_DESKTOP_DB=OFF \
 	%{cmake_on_off vte WITH_VTE} \
+	%{cmake_on_off www WITH_WWW} \
 	..
 
 %{__make}
