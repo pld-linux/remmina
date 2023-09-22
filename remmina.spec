@@ -11,12 +11,12 @@
 #
 Summary:	Remote Desktop Client
 Name:		remmina
-Version:	1.4.32
+Version:	1.4.33
 Release:	1
 License:	GPLv2+ and MIT
 Group:		X11/Applications
-Source0:	https://gitlab.com/Remmina/Remmina/-/archive/v%{version}/Remmina-v%{version}.tar.bz2
-# Source0-md5:	0d578c739fcf1551f84a60ce441fa0cb
+Source0:	https://gitlab.com/Remmina/Remmina/-/archive/v.%{version}/Remmina-v.%{version}.tar.bz2
+# Source0-md5:	e3f0be9198e826938223c0e0ef402837
 # Cmake helper file to easy build plugins outside remmina source tree
 # See http://www.muflone.com/remmina-plugin-rdesktop/english/install.html which
 # use http://www.muflone.com/remmina-plugin-builder/ with remmina bundled source.
@@ -184,7 +184,7 @@ This package contains the www plugin for the Remmina remote desktop
 client.
 
 %prep
-%setup -qn Remmina-v%{version}
+%setup -qn Remmina-v.%{version}
 %{__sed} -i s/^pt_PT$// po/LINGUAS
 %{__rm} -f po/pt_PT.po
 %patch0 -p1
