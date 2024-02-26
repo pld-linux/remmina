@@ -30,6 +30,7 @@ BuildRequires:	avahi-ui-gtk3-devel >= 0.6.30
 BuildRequires:	cairo-devel
 BuildRequires:	cmake >= 3.10.0
 %{?with_rdp:BuildRequires:	cups-devel}
+BuildRequires:	curl-devel
 %{?with_rdp:BuildRequires:	freerdp2-devel >= 2.0.0-0.20190320}
 BuildRequires:	gdk-pixbuf2-devel
 BuildRequires:	gettext-tools
