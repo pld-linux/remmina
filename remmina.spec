@@ -204,7 +204,9 @@ cd build
 	-DWITH_ICON_CACHE=OFF \
 	%{cmake_on_off secret WITH_LIBSECRET} \
 	%{cmake_on_off vnc WITH_LIBVNCSERVER} \
+	-DWITH_NEWS:BOOL=OFF \
 	%{cmake_on_off spice WITH_SPICE} \
+	-DWITH_STATS:BOOL=OFF \
 	-DWITH_UPDATE_DESKTOP_DB=OFF \
 	%{cmake_on_off vte WITH_VTE} \
 	%{cmake_on_off www WITH_WWW} \
