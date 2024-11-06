@@ -11,18 +11,17 @@
 #
 Summary:	Remote Desktop Client
 Name:		remmina
-Version:	1.4.35
+Version:	1.4.36
 Release:	1
 License:	GPLv2+ and MIT
 Group:		X11/Applications
 Source0:	https://gitlab.com/Remmina/Remmina/-/archive/v%{version}/Remmina-v%{version}.tar.bz2
-# Source0-md5:	f655881007cc55db30518b9bfcae5ec4
+# Source0-md5:	59ccb4768dbb84ae637ae7128d1e1754
 # Cmake helper file to easy build plugins outside remmina source tree
 # See http://www.muflone.com/remmina-plugin-rdesktop/english/install.html which
 # use http://www.muflone.com/remmina-plugin-builder/ with remmina bundled source.
 # So we can't use it directly only as instructions.
 Source1:	pluginBuild-CMakeLists.txt
-Patch0:		fix-shebangs.patch
 URL:		http://remmina.org
 BuildRequires:	atk-devel
 BuildRequires:	avahi-devel >= 0.6.30
@@ -31,7 +30,7 @@ BuildRequires:	cairo-devel
 BuildRequires:	cmake >= 3.10.0
 %{?with_rdp:BuildRequires:	cups-devel}
 BuildRequires:	curl-devel
-%{?with_rdp:BuildRequires:	freerdp2-devel >= 2.0.0-0.20190320}
+%{?with_rdp:BuildRequires:	freerdp3-devel >= 3.5.0}
 BuildRequires:	gdk-pixbuf2-devel
 BuildRequires:	gettext-tools
 BuildRequires:	glib2-devel
@@ -119,7 +118,7 @@ This package enables Python plugins for Remmina.
 %package        plugins-rdp
 Summary:	RDP plugin for Remmina Remote Desktop Client
 Requires:	%{name} = %{version}-%{release}
-Requires:	freerdp2-libs >= 2.0.0-0.20190320
+Requires:	freerdp3-libs >= 3.5.0
 
 %description    plugins-rdp
 Remmina is a remote desktop client written in GTK+, aiming to be
@@ -188,7 +187,6 @@ client.
 %setup -qn Remmina-v%{version}
 %{__sed} -i s/^pt_PT$// po/LINGUAS
 %{__rm} -f po/pt_PT.po
-%patch0 -p1
 
 %build
 mkdir -p build
@@ -199,6 +197,7 @@ cd build
 	-DWITH_APPINDICATOR=ON \
 	-DWITH_AVAHI=ON \
 	-DWITH_CUPS=ON \
+	-DWITH_FREERDP3=ON \
 	-DWITH_GCRYPT=ON \
 	-DWITH_GETTEXT=ON \
 	-DWITH_ICON_CACHE=OFF \
