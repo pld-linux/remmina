@@ -11,12 +11,12 @@
 #
 Summary:	Remote Desktop Client
 Name:		remmina
-Version:	1.4.36
+Version:	1.4.37
 Release:	1
 License:	GPLv2+ and MIT
 Group:		X11/Applications
 Source0:	https://gitlab.com/Remmina/Remmina/-/archive/v%{version}/Remmina-v%{version}.tar.bz2
-# Source0-md5:	59ccb4768dbb84ae637ae7128d1e1754
+# Source0-md5:	0bf08756cb1c83bfcec749396c24c8d3
 # Cmake helper file to easy build plugins outside remmina source tree
 # See http://www.muflone.com/remmina-plugin-rdesktop/english/install.html which
 # use http://www.muflone.com/remmina-plugin-builder/ with remmina bundled source.
@@ -55,8 +55,8 @@ BuildRequires:	spice-glib-devel
 BuildRequires:	spice-gtk-devel
 BuildRequires:	spice-protocol
 %endif
-BuildRequires:	wayland-devel
 %{?with_vte:BuildRequires:	vte-devel >= 0.38}
+BuildRequires:	wayland-devel
 BuildRequires:	xorg-lib-libxkbcommon-devel
 Requires(post,postun):	desktop-file-utils
 Requires(post,postun):	gtk-update-icon-cache
@@ -252,10 +252,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/*.desktop
 %{_iconsdir}/hicolor/*/actions/*.*
 %{_iconsdir}/hicolor/*/apps/*.*
-%{_iconsdir}/hicolor/*/emblems/org.remmina.Remmina-sftp-symbolic.svg
-%{_iconsdir}/hicolor/*/emblems/org.remmina.Remmina-ssh-symbolic.svg
-%{_iconsdir}/hicolor/*/emblems/org.remmina.Remmina-tool-symbolic.svg
 %{_iconsdir}/hicolor/*/status/org.remmina.Remmina-status.svg
+%{_iconsdir}/hicolor/scalable/emblems/org.remmina.Remmina-sftp-symbolic.svg
+%{_iconsdir}/hicolor/scalable/emblems/org.remmina.Remmina-ssh-symbolic.svg
+%{_iconsdir}/hicolor/scalable/emblems/org.remmina.Remmina-status-green.svg
+%{_iconsdir}/hicolor/scalable/emblems/org.remmina.Remmina-status-grey.svg
+%{_iconsdir}/hicolor/scalable/emblems/org.remmina.Remmina-status-red.svg
+%{_iconsdir}/hicolor/scalable/emblems/org.remmina.Remmina-tool-symbolic.svg
 %dir %{_iconsdir}/hicolor/apps
 %{_iconsdir}/hicolor/apps/*.*
 %{_datadir}/mime/packages/*.xml
