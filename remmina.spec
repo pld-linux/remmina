@@ -12,7 +12,7 @@
 Summary:	Remote Desktop Client
 Name:		remmina
 Version:	1.4.39
-Release:	1
+Release:	2
 License:	GPLv2+ and MIT
 Group:		X11/Applications
 Source0:	https://gitlab.com/Remmina/Remmina/-/archive/v%{version}/Remmina-v%{version}.tar.bz2
